@@ -4,11 +4,15 @@ using ZeemProductManagementTest.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Configuration.AddEnvironmentVariables();
+
+
 // Add services to the container.
-// Add DbContext with InMemoryDatabase
-// Add DbContext with optional PostgreSQL
+// Adding DbContext with InMemoryDatabase
+// Addong DbContext with optional PostgreSQL
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-Console.WriteLine($"Connection String: {Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")}");
+Console.WriteLine($"Connection String: {Environment.GetEnvironmentVariable("POSTGRESQL_CONNECT")}");
 
 if (!string.IsNullOrEmpty(connectionString))
 {
