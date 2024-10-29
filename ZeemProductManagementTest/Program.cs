@@ -11,8 +11,9 @@ builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 // Adding DbContext with InMemoryDatabase
 // Addong DbContext with optional PostgreSQL
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-Console.WriteLine($"Connection String: {Environment.GetEnvironmentVariable("POSTGRESQL_CONNECT")}");
+string connectionString = Environment.GetEnvironmentVariable("POSTGRESQL_CONNECT") ?? string.Empty;
+builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+
 Console.WriteLine($"Connection String2: {connectionString}");
 
 if (!string.IsNullOrEmpty(connectionString))
