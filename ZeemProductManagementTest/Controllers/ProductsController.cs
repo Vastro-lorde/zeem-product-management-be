@@ -24,6 +24,7 @@ namespace ZeemProductManagementTest.Controllers
         [HttpGet("GetAllProducts")]
         public async Task<ActionResult<PaginationModel<GetProductDTO>>> GetAllProducts(int pageSize = 10, int pageNumber = 1)
         {
+            // throw new Exception(); //for testing global exception handler
             try
             {
                 var products = await _repository.GetAllAsync(pageSize, pageNumber);

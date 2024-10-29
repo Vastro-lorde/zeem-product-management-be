@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ZeemProductManagementTest.Data;
 using ZeemProductManagementTest.Repository;
+using ZeemProductManagementTest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,10 +41,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    
+
 //}
+
+// Register the global exception handling middleware
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
 app.UseSwagger();
-    app.UseSwaggerUI();
+
+app.UseSwaggerUI();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
