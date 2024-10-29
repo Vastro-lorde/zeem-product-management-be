@@ -15,6 +15,7 @@ namespace ZeemProductManagementTest.Services.Pagination
             var totalPages = (int)Math.Ceiling(count / (double)pageSize);
 
             var currentPageItems = await source
+                .OrderBy(x => x)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

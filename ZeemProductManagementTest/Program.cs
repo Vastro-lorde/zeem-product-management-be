@@ -14,8 +14,6 @@ builder.Configuration.AddEnvironmentVariables();
 string connectionString = Environment.GetEnvironmentVariable("POSTGRESQL_CONNECT") ?? string.Empty;
 builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
 
-Console.WriteLine($"Connection String2: {connectionString}");
-
 if (!string.IsNullOrEmpty(connectionString))
 {
     builder.Services.AddDbContext<AppDbContext>(options =>
