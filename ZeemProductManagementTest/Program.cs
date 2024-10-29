@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using ZeemProductManagementTest.Data;
 using ZeemProductManagementTest.Repository;
 using ZeemProductManagementTest.Services;
@@ -41,7 +42,16 @@ builder.Services.AddCors(e => e.AddDefaultPolicy (builder => builder
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo 
+    {
+        Title = "ZeemProductManagementTest",
+        Version = "v1",
+        Description = "Created By Seun Daniel Omatsola for Zeem Assessment"
+
+    });
+});
 
 var app = builder.Build();
 
