@@ -1,0 +1,6 @@
+@ZeemProductManagementTest_HostAddress = http://localhost:5250
+
+GET {{ZeemProductManagementTest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
