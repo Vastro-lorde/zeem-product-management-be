@@ -30,7 +30,7 @@ else
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
 
-builder.Services.AddCors(e => e.AddDefaultPolicy(builder => builder
+builder.Services.AddCors(e => e.AddDefaultPolicy (builder => builder
                .AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader()
@@ -59,6 +59,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
