@@ -13,6 +13,7 @@ builder.Configuration.AddEnvironmentVariables();
 // Addong DbContext with optional PostgreSQL
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
 Console.WriteLine($"Connection String: {Environment.GetEnvironmentVariable("POSTGRESQL_CONNECT")}");
+Console.WriteLine($"Connection String2: {connectionString}");
 
 if (!string.IsNullOrEmpty(connectionString))
 {
