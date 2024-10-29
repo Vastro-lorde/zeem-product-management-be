@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DbContext with InMemoryDatabase
 // Add DbContext with optional PostgreSQL
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+Console.WriteLine($"Connection String: {Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")}");
 
 if (!string.IsNullOrEmpty(connectionString))
 {
