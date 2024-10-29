@@ -59,10 +59,10 @@ namespace ZeemProductManagementTest.Repository
                 var existingProduct = await _context.Products.FindAsync(id);
                 if (existingProduct == null) return null;
 
-                existingProduct.Name = product.Name;
-                existingProduct.Description = product.Description;
-                existingProduct.Price = product.Price;
-                existingProduct.Stock = product.Stock;
+                existingProduct.Name = product.Name ?? existingProduct.Name;
+                existingProduct.Description = product.Description ?? existingProduct.Description;
+                existingProduct.Price = product.Price ?? existingProduct.Price;
+                existingProduct.Stock = product.Stock ?? existingProduct.Stock;
 
                 _context.Products.Update(existingProduct);
                 await _context.SaveChangesAsync();
@@ -88,6 +88,23 @@ namespace ZeemProductManagementTest.Repository
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public async Task<PaginationModel<Product>> SearchAsync(string searchQuery, int pageSize, int pageNumber)
+        {
+            try
+            {
+                string query = searchQuery.ToLower();
+                // Filter products that contain the search query in the Name or Description fields return IQueryable
+                var filteredProducts = _context.Products
+                    .Where(p => p.Name.ToLower().Contains(query) || p.Description.ToLower().Contains(query));
+
+                // Paginate the filtered results
+                return await PaginationClass.PaginateAsync(filteredProducts, pageSize, pageNumber);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

@@ -21,8 +21,8 @@ namespace ZeemProductManagementTest.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<PaginationModel<GetProductDTO>>> GetAll(int pageSize = 10, int pageNumber = 1)
+        [HttpGet("GetAllProducts")]
+        public async Task<ActionResult<PaginationModel<GetProductDTO>>> GetAllProducts(int pageSize = 10, int pageNumber = 1)
         {
             try
             {
@@ -38,13 +38,13 @@ namespace ZeemProductManagementTest.Controllers
             }
         }
 
-        [HttpGet("GetById")]
-        public async Task<ActionResult<GetProductDTO>> GetById(Guid id)
+        [HttpGet("GetProductById")]
+        public async Task<ActionResult<GetProductDTO>> GetProductById(Guid id)
         {
             try
             {
                 var product = await _repository.GetByIdAsync(id);
-                if (product == null) return NotFound();
+                if (product == null) return NotFound("Product not found");
                 var result = _mapper.Map<GetProductDTO>(product);
                 return Ok(result);
             }
@@ -55,8 +55,8 @@ namespace ZeemProductManagementTest.Controllers
             }
         }
 
-        [HttpPost("Create")]
-        public async Task<ActionResult<GetProductDTO>> Create(CreateProductDTO product)
+        [HttpPost("CreateProduct")]
+        public async Task<ActionResult<GetProductDTO>> CreateProduct(CreateProductDTO product)
         {
             try
             {
@@ -68,6 +68,54 @@ namespace ZeemProductManagementTest.Controllers
             catch (Exception ex)
             {
 
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateProductById")]
+        public async Task<ActionResult<GetProductDTO>> UpdateProductById(Guid id, UpdateProductDTO product)
+        {
+            try
+            {
+                var result = await _repository.UpdateAsync(id, product);
+                if (result == null) return NotFound("Product not found");
+                var updatedProduct = _mapper.Map<GetProductDTO>(result);
+
+                return Ok(updatedProduct);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete("DeleteProductById")]
+        public async Task<ActionResult> DeleteProductById(Guid id)
+        {
+            try
+            {
+                var result = await _repository.DeleteAsync(id);
+                if (!result) return NotFound("Product not found");
+                return Ok("Product deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("SearchProducts")]
+        public async Task<ActionResult<PaginationModel<GetProductDTO>>> SearchProducts(string name, int pageSize = 10, int pageNumber = 1)
+        {
+            try
+            {
+                var products = await _repository.SearchAsync(name, pageSize, pageNumber);
+                var result = _mapper.Map<PaginationModel<GetProductDTO>>(products);
+                if (products.TotalNumberOfPages == 0) return NotFound(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

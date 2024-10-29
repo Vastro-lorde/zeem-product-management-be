@@ -11,5 +11,6 @@ namespace ZeemProductManagementTest.Repository
         Task<PaginationModel<Product>> GetAllAsync(int pageSize, int pageNumber);
         Task<Product?> GetByIdAsync(Guid id);
         Task<Product?> UpdateAsync(Guid id, UpdateProductDTO product);
+        Task<PaginationModel<Product>> SearchAsync(string searchQuery, int pageSize, int pageNumber);
     }
 }
